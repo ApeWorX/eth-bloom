@@ -1,15 +1,15 @@
 # eth-bloom
 
 [![Join the conversation on Discord](https://img.shields.io/discord/809793915578089484?color=blue&label=chat&logo=discord&logoColor=white)](https://discord.gg/GHryRvPB84)
-[![Build Status](https://circleci.com/gh/ethereum/eth-bloom.svg?style=shield)](https://circleci.com/gh/ethereum/eth-bloom)
+[![Build Status](https://github.com/ApeWorX/eth-bloom/actions/workflows/test.yaml/badge.svg)](https://github.com/ApeWorX/eth-bloom/actions/workflows/test.yaml)
 [![PyPI version](https://badge.fury.io/py/eth-bloom.svg)](https://badge.fury.io/py/eth-bloom)
 [![Python versions](https://img.shields.io/pypi/pyversions/eth-bloom.svg)](https://pypi.python.org/pypi/eth-bloom)
 
 A python implementation of the bloom filter used by Ethereum.
 
-> This library and repository was previously located at https://github.com/pipermerriam/ethereum-bloom.  It was transferred to the Ethereum foundation github in November 2017 and renamed to `eth-bloom`.  The PyPi package was also renamed from `ethereum-bloom` to \`eth-bloom.
+> This library and repository was previously located at https://github.com/pipermerriam/ethereum-bloom. It was transferred to the Ethereum foundation github in November 2017 and renamed to `eth-bloom`. The PyPI package was also renamed from `ethereum-bloom` to `eth-bloom`.
 
-Read more in the documentation below. [View the change log](https://github.com/ethereum/eth-bloom/blob/main/CHANGELOG.rst).
+Read more in the documentation below. [View the change log](https://github.com/ApeWorX/eth-bloom/blob/main/CHANGELOG.rst).
 
 For more information on what Ethereum Bloom Filters are see [here](what_is_eth-bloom.txt).
 
@@ -125,43 +125,37 @@ for information on how we do:
 - Pull Requests
 - Documentation
 
-We use [pre-commit](https://pre-commit.com/) to maintain consistent code style. Once
+We use [prek](https://prek.j178.dev) to maintain consistent code style. Once
 installed, it will run automatically with every commit. You can also run it manually
-with `make lint`. If you need to make a commit that skips the `pre-commit` checks, you
-can do so with `git commit --no-verify`.
+with `uv run prek run --all-files`. If you need to make a commit that skips the
+`prek` checks, you can do so with `git commit --no-verify`.
 
 ### Development Environment Setup
 
-You can set up your dev environment with:
+You can set up your dev environment with the `dev` dependency group, which is
+installed by default when you run `uv sync`.
 
 ```sh
-git clone git@github.com:ethereum/eth-bloom.git
+git clone git@github.com:ApeWorX/eth-bloom.git
 cd eth-bloom
-virtualenv -p python3 venv
-. venv/bin/activate
-python -m pip install -e ".[dev]"
-pre-commit install
+uv sync
+uv run prek install
+```
+
+### Checks
+
+Run the standard local checks with:
+
+```sh
+uv build
+uv run --group lint ruff check .
+uv run --group lint ruff format --check .
+uv run --group lint --group test mypy -p eth_bloom
+uv run --group test pytest tests
 ```
 
 ### Release setup
 
-To release a new version:
-
-```sh
-make release bump=$$VERSION_PART_TO_BUMP$$
-```
-
-#### How to bumpversion
-
-The version format for this repo is `{major}.{minor}.{patch}` for stable, and
-`{major}.{minor}.{patch}-{stage}.{devnum}` for unstable (`stage` can be alpha or beta).
-
-To issue the next version in line, specify which part to bump,
-like `make release bump=minor` or `make release bump=devnum`. This is typically done from the
-main branch, except when releasing a beta (in which case the beta is released from main,
-and the previous stable branch is released from said branch).
-
-If you are in a beta version, `make release bump=stage` will switch to a stable.
-
-To issue an unstable version when the current version is stable, specify the
-new version explicitly, like `make release bump="--new-version 4.0.0-alpha.1 devnum"`
+To release a new version, create a GitHub Release. The release tag is used by
+`setuptools-scm` to derive the package version, and GitHub Actions publishes the built
+package to PyPI using trusted publishing.

@@ -1,8 +1,8 @@
 import numbers
 import operator
+from collections.abc import Iterable
 from typing import (
     TYPE_CHECKING,
-    Iterable,
     Union,
 )
 
@@ -30,7 +30,7 @@ def get_bloom_bits(value: bytes) -> Iterable[int]:
 
 
 class BloomFilter(numbers.Number):
-    value = None  # type: int
+    value: int = 0
 
     def __init__(self, value: int = 0) -> None:
         self.value = value
@@ -66,7 +66,7 @@ class BloomFilter(numbers.Number):
         return operator.index(self.value)
 
     def _combine(self, other: Union[int, "BloomFilter"]) -> "BloomFilter":
-        if not isinstance(other, (int, BloomFilter)):
+        if not isinstance(other, int | BloomFilter):
             raise TypeError(
                 "The `or` operator is only supported for other `BloomFilter` instances"
             )
@@ -79,7 +79,7 @@ class BloomFilter(numbers.Number):
         return self._combine(other)
 
     def _icombine(self, other: Union[int, "BloomFilter"]) -> "BloomFilter":
-        if not isinstance(other, (int, BloomFilter)):
+        if not isinstance(other, int | BloomFilter):
             raise TypeError(
                 "The `or` operator is only supported for other `BloomFilter` instances"
             )
