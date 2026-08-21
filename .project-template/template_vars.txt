@@ -1,6 +1,0 @@
-eth_bloom
-eth-bloom
-eth-bloom
-eth-bloom
-eth-bloom
-A python implementation of the bloom filter used by Ethereum
