@@ -11,7 +11,7 @@ A python implementation of the bloom filter used by Ethereum.
 
 Read more in the documentation below. [View the change log](https://github.com/ApeWorX/eth-bloom/blob/main/CHANGELOG.rst).
 
-For more information on what Ethereum Bloom Filters are see [here](what_is_eth-bloom.txt).
+For more information on what Bloom Filters are, see [Wikipedia](https://en.wikipedia.org/wiki/Bloom_filter).
 
 ## Installation
 
